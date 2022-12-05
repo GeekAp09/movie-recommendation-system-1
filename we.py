@@ -2,7 +2,13 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import bz2
 
+
+def decompress_pickle(file):
+ data = bz2.BZ2File(file, 'rb')
+ data = pickle.load(data)
+ return data
 
 def fetch_poster(id):
     response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US'.format(id))
@@ -29,7 +35,8 @@ def recommend(movie):
 movies_dict = pickle.load(open('movie_dict.pkl','rb'))
 movies= pd.DataFrame(movies_dict)
 # st.text(movies)
-similarity = pickle.load(open('similarity.pkl','rb'))
+similarity = decompress_pickle("new_similarity.pkl")
+# similarity = pickle.load(open('similarity.pkl','rb'))
 st.title('Movie Recommender System')
 selected_movie_name = st.selectbox("How would you like to be contacted?",movies['title'].values)
 if st.button('Recommend'):
