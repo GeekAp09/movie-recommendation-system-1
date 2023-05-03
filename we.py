@@ -32,7 +32,8 @@ def recommend(movie):
 
 
 
-movies_dict = pickle.load(open('movie_dict.pkl','rb'))
+# movies_dict = pickle.load(open('movie_dict.pkl','rb'))
+movies_dict = pd.read_pickle('movie_list.pkl')
 movies= pd.DataFrame(movies_dict)
 # st.text(movies)
 similarity = decompress_pickle("new_similarity.pkl")
